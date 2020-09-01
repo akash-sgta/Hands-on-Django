@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>{% block titlespace %}{% endblock %}</title>
+        <link href="{% static 'preloaded/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/prettyPhoto.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/price-range.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/animate.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'preloaded/css/responsive.css' %}" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="{% static 'preloaded/js/html5shiv.js' %}"></script>
+        <script src="{% static 'preloaded/js/respond.min.js' %}"></script>
+        <![endif]-->
+
+        <!-- ENQUIRY ?
+        <link rel="shortcut icon" href="images/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+        -->
+
+        <script src="{% static 'preloaded/js/jquery.js' %}"></script>
+        <script src="{% static 'preloaded/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'preloaded/js/jquery.scrollUp.min.js' %}"></script>
+        <script src="{% static 'preloaded/js/price-range.js' %}"></script>
+        <script src="{% static 'preloaded/js/jquery.prettyPhoto.js' %}"></script>
+        <script src="{% static 'preloaded/js/main.js' %}"></script>
+        
+        <style>
+            .btnCenter{
+                width:70px;
+                height:auto;
+                box-shadow:0 1px 2px #5e5d5b;
+                text-align: center;
+            }
+        </style>
+        <script></script>
+
+        {% block headspace %}{% endblock %}
+
+    </head>
+    <body>
+        <header id='header'>
+            <div class="header-middle"><!--header-middle-->
+			    <div class="container">
+    				<div class="row">
+					    <div class="col-sm-4">
+    						<div class="logo pull-left">
+							    <a href="/"><img src="{% static 'preloaded/images/img4.png' %}" height="60" width="70" alt="" /></a>
+						    </div>
+					    </div>
+					    <div class="col-sm-8">
+    						<div class="shop-menu pull-right">
+							    <ul class="nav navbar-nav">
+    							    <li><a href="#"><i class="fa fa-lock"></i> Login</a></li>
+							        <li><a href="#"><i class="fa fa-shopping-cart"></i> My Orders</a></li>
+							        <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								    <li><a href="#"><i class="fa fa-user"></i> Logout</a></li>
+							    </ul>
+						    </div>
+					    </div>
+				    </div>
+			    </div>
+            </div>
+
+            <div class="header-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="mainmenu pull-left">
+                                <ul class="nav navbar-nav collapse navbar-collapse">
+                                    <li><a href="/" class="active">Home</a></li>
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="#">Developers</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <form name="form" method="get" action="/search">
+                                <div class="search">
+                                    <input type="text" name="query" id="query" placeholder="Search">
+                                    <button class="btnCenter" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>{% block mainspace %}{% endblock %}</main>
+        
+        <footer id="footer">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="companyinfo">
+                                <h2><span>{{site_name_f}}</span>{{site_name_l}}</h2>
+                                <p>{{site_summary}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-widget">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>Service</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>Address</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="">Kolkata</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>About Shopper</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="">Company Information</a></li>
+                                    <li><a href="#">Shop for a item</a></li>
+                                    <li><a href="#">Store Location</a></li>
+                                    <li><a href="#">Affillate Program</a></li>
+                                    <li><a href="#">Copyright</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <p class="pull-left">Copyright 2019 | E-SHOPPER Inc. All rights reserved.**</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
