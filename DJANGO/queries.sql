@@ -1,5 +1,3 @@
--- Create
-
 CREATE TABLE admins(
   id INT(8) NOT NULL AUTO_INCREMENT,
   f_name VARCHAR(255) NOT NULL,
@@ -9,6 +7,8 @@ CREATE TABLE admins(
   token VARCHAR(255),
   PRIMARY KEY(id)
 );
+
+I
 
 CREATE TABLE users(
   id INT(15) NOT NULL AUTO_INCREMENT,
@@ -51,4 +51,24 @@ CREATE TABLE products(
   PRIMARY KEY(id),
   FOREIGN KEY(occation_id) REFERENCES occations(id),
   FOREIGN KEY(image_id) REFERENCES images(id)
+);
+
+CREATE TABLE states(
+  id INT(15) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE districts(
+  id INT(15) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE sndmap(
+  state_id INT(15) NOT NULL,
+  district_id INT(15) NOT NULL,
+  PRIMARY KEY(state_id, district_id),
+  FOREIGN KEY(state_id) REFERENCES states(id) ON DELETE CASCADE,
+  FOREIGN KEY(district_id) REFERENCES districts(id) ON DELETE CASCADE
 );
