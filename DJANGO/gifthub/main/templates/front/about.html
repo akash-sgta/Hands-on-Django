@@ -1,0 +1,156 @@
+{% extends 'front/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+About
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block head %}
+
+<style>
+
+    body{
+        background: white;
+        font-family:sans-serif;
+        text-align: justify;
+        overflow: hidden;
+    }
+
+    #about{
+        padding-top: 98px;
+        padding-bottom: 101px;
+    }
+
+    #about .triangle-right{
+        margin-top: 95px;
+        width: 0;
+        height: 0;
+        border-top: 259px solid transparent;
+        border-left: 470px solid orange;
+        border-bottom: 259px solid transparent;
+    }
+
+    #about .triangle-right img{
+        position: absolute;
+        left: -1px;
+        top: 81px;
+        width: 74%;
+    }
+
+    .fa-play{
+        font-size: 100px;
+    }
+
+
+    #about .p-first{
+        margin-bottom: 30px;
+    }
+
+
+    #about h2{
+        margin-bottom: 47px;
+        margin-top: 12px;
+    }
+
+
+    #about .social-link-text{
+        margin-top: 50px;
+        margin-bottom: 25px;
+    }
+
+    #about .about-link{
+        padding-left: 0px;
+    }
+
+    #about .about-link li{
+        display: inline-block;
+    }
+
+    #about .about-link li a i{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        line-height: 50px;
+        text-align: center;
+        border: 1px solid #d6c6b2;
+        margin-right: 10px;
+        font-size: 22px;
+        color: orange;
+        transition: all .3s;
+    }
+
+
+    #about .about-link li a i:hover{
+        color: #222222;
+        background: orange;
+        border-color: gray;
+    }
+
+
+    #about .about-img{
+        position: relative;
+    }
+
+    #about .about-img{
+        position: relative;
+    }
+
+    #about .about-img .man{
+        position: absolute;
+        bottom: 161px;
+        top: 12px;
+        left: -40px;
+        width: 90%;
+        height: 90%;
+        padding: 40px;
+        border-radius: 50%;
+    }
+
+    .color-3{
+        color: darkgray;
+    }
+
+
+    .text-white{
+        color: white;
+    }
+
+
+    p{
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 24px;
+        color: #d6c6b2;
+    }
+
+</style>
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<section id="about">
+
+	<div class="container">
+		<div class="row">
+		<div class="col-md-5">
+			<div class="about-img">
+                <img  src="{% static 'front/images/about_tringle.png' %}">
+
+                <img class="man" src="{% static 'front/images/gift.jpg' %}" alt="">
+
+			</div>
+		</div>
+		<br>
+		<div class="col-md-7 about-right">
+
+            <h2 class="color-3" style="color: darkblue;"><b>About Us</b></h2>
+            {{site_data.description|safe}}
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}

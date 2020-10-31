@@ -1,0 +1,30 @@
+{% extends 'front/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Contact
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<section class="testimonial">
+    <div class="container">
+        <h1>OUR CONTACTS</h1>
+        <p class="text-center">Feel free to contact us</p><br><br>
+        <div class="row">
+            {% for d in devs %}
+            <div class="col-md-3 text-center">
+                <div class="profile">
+                    <img style="display: inline-block; width: 150px; height: 150px;" src="{% static d.image_url %}" class="user" alt="PROFILE">
+                    <blockquote><p><a href="mailto:{{d.email}}">{{d.email}}</a></p><p>{{d.phone}}</p></blockquote>
+                    <h3>{{d.name}}<br><span>C0-Founder at GiftHUB</span></h3>
+                </div>
+            </div>
+            {% endfor %}        
+        </div>
+    </div>
+</section>
+
+{% endblock %}

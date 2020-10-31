@@ -1,0 +1,61 @@
+{% extends 'front/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Developer
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/swiper.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'front/css/style1.css' %}">
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        {% for d in devs %}
+        <div class="swiper-slide">
+            <div class="imgBx">
+                <img src="{% static d.image_url %}" height="300" width="300">
+            </div>
+            <div class="details">
+                <h3>{{d.name}}<br><span>{{d.designaiton}}</span></h3>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_footer %}
+
+<script type="text/javascript" src="{% static 'front/js/swiper.min.js' %}"></script>
+<script>
+var swiper = new Swiper('.swiper-container', {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    coverflowEffect: {
+    rotate: 60,
+    stretch: 0,
+    depth: 100,
+    modifier: 1,
+    slideShadows : true,
+    },
+    pagination: {
+    el: '.swiper-pagination',
+    },
+});
+</script>
+
+{% endblock %}
+<!-- ============================================================================================ -->

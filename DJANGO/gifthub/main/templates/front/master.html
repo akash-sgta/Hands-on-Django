@@ -1,0 +1,162 @@
+{% load static %}
+<!-- ============================================================================================ -->
+
+<html lang="en">
+    <head>
+        <!-- ============================================================================================ -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- ============================================================================================ -->
+        <link href="{% static 'front/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'front/css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'front/css/prettyPhoto.css' %}" rel="stylesheet">
+        <link href="{% static 'front/css/price-range.css' %}" rel="stylesheet">
+        <link href="{% static 'front/css/animate.css' %}" rel="stylesheet">
+	    <link href="{% static 'front/css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'front/css/responsive.css' %}" rel="stylesheet">
+        <!-- ============================================================================================ -->
+        <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+        <!-- ============================================================================================ -->
+        <link rel="shortcut icon" href="{% static 'front/images/ico/favicon.ico' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'front/images/ico/apple-touch-icon-144-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'front/images/ico/apple-touch-icon-114-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'front/images/ico/apple-touch-icon-72-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" href="{% static 'front/images/ico/apple-touch-icon-57-precomposed.png' %}">
+        <!-- ============================================================================================ -->
+        <title>{% block head_title %}{% endblock %} | {{site_data.name|safe}}</title>
+        <!-- ============================================================================================ -->
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+
+        <header id="header"><!--header-->
+            <div class="header-middle"><!--header-middle-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="logo pull-left">
+                                <a href="/"><img src="{% static 'front/images/img4.png' %}" height="60" width="70" alt="LOGO" /></a>
+                            </div>
+    
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="shop-menu pull-right">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="login.py"><i class="fa fa-lock"></i> Login</a></li>
+                                    <li><a href="viewuserorders.py"><i class="fa fa-shopping-cart"></i> My Orders</a></li>
+                                    <li><a href="cart.py"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                    <li><a href="logout.py"><i class="fa fa-user"></i> Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--/header-middle-->
+        
+            <div class="header-bottom"><!--header-bottom-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="mainmenu pull-left">
+                                <ul class="nav navbar-nav collapse navbar-collapse">
+                                    <li><a href="/" class="active">Home</a></li>
+                                    <li><a href="{% url 'about' %}">About Us</a></li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                    <li><a href="{% url 'developer' %}">Developers</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <form name="form" method="post" action="search.py">
+                                <div class="search">
+                                    <input type="text" name="search" placeholder="Search"/>
+                                    <input type="submit" name="ok" value="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!--/header-bottom-->
+            {% block body_header %}{% endblock %}
+        </header><!--/header-->
+
+        <main>
+            {% block body_main %}{% endblock %}
+        </main>
+
+        <footer id="footer"><!--Footer-->
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="companyinfo">
+                                <h2><span>[</span>{{site_data.name}}<span>]</span></h2>
+                                <p>{{site_data.summary}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-widget">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>Service</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>Address</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="">{{site_data.address}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="single-widget">
+                                <h2>About Shopper</h2>
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="">Company Information</a></li>
+                                    <li><a href="/">Shop for a item</a></li>
+                                    <li><a href="">Store Location</a></li>
+                                    <li><a href="">Affillate Program</a></li>
+                                    <li><a href="">Copyright 2020 &copy;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <p class="pull-left">Copyright 2020 &copy;E-SHOPPER Inc. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+
+            {% block body_footer %}{% endblock %}
+        </footer><!--/Footer-->
+
+    </body>
+</html>
