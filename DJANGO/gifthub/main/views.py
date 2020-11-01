@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 from .models import Main, Cassarole, Developer
 from product.models import Occation, Product
 
+import datetime
+
 # Create your views here.
 
 def home(request):
@@ -24,6 +26,8 @@ def home(request):
 
     scrub = Product.objects.all()
     data['product'] = scrub
+
+    # session or cookie check here 
 
     return render(request, 'front/home.html', data)
 

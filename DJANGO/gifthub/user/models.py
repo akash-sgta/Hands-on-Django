@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models.deletion import CASCADE, SET_NULL
 
+from product.models import Product
 # Create your models here.
 
 class User(models.Model):
@@ -11,3 +13,11 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.pk} | {self.name.split()[0]}"
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    product = models.ForeignKey(Product, on_delete=SET_NULL, null=True, blank=True)
+    amount = models.DecimalField(max_digits=7, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return f"{self.pk} | {self.user.name} | {self.product.name}"

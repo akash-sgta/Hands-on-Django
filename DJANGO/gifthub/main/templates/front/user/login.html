@@ -1,0 +1,50 @@
+{% extends 'front/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Homepage
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<section id="form"><!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="login-form"><!--login form-->
+                    <h2>Login to your account</h2>
+                    <form name="frm" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="email" id="email_id" name="email_id" placeholder="Email Address" required>
+                        <input type="password" id="pwd" name="pwd" placeholder="Password" required>
+                        <center><button type="submit" id="ok" name="ok" value="login">LOGIN</button></center>
+                    </form>
+                </div><!--/login form-->
+            </div>
+            <div class="col-sm-1">
+                <h2 class="or">OR</h2>
+            </div>
+            <div class="col-sm-4">
+                <div class="signup-form"><!--sign up form-->
+                    <h2>New User Signup!</h2>
+                    <form name="frm" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="text" name="name" id="name" placeholder="Name" required>
+                        <input type="email" name="email_id" id="email_id" placeholder="Email Address" required>
+                        <input type="password" name="pwd" id="pwd" placeholder="Password" required>
+                        <input type="number" max="9999999999" min="1000000000" name="phone" id="phone" placeholder="Contact" required>
+                        <label for="address">Address</label>
+                        <textarea type="text" name="address" id="address" required></textarea>
+                        <br><br>
+                        <center><button type="submit" id="ok" name="ok" value="signup">SIGN UP</button></center>
+                    </form>
+                </div><!--/sign up form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->
+
+{% endblock %}
+<!-- ============================================================================================ -->

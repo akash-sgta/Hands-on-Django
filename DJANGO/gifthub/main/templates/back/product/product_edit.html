@@ -1,0 +1,82 @@
+{% extends 'back/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Admin
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{site_data.name}}</h1>
+                </div>
+                <div class="col-lg-10">
+                    <h2>Product </h2><h4>create-read-<b>edit</b>-delete</h4>
+                    <hr>
+
+                    <form action="{% url 'product_edit' pk=old_content.pk %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" value="{{old_content.name}}" class="form-control" name="prod-name" id="prod-name" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" value="{{old_content.brand}}" class="form-control" name="prod-brand" id="prod-brand" placeholder="Brand" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <textarea row=2 class="form-control" name="prod-details" id="prod-details" required>{{old_content.details}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="prod-price">Price</label>
+                                <input type="nummber" min="0" step="0.01" value="{{old_content.price}}" class="form-control" name="prod-price" id="prod-price" value="0.00" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="prod-price">Stock</label>
+                                <input type="number" min="0" value="{{old_content.stock}}" class="form-control" name="prod-stock" id="prod-stock" value="1" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="file" class="form-control" name="prod-image" id="prod-image">
+                            </div>
+                            <div class="form-group col-md-4">
+                                {{old_content.image_name}}
+                                <img src="{{old_content.image_url}}" style="display:inline-block; width:250px; height:250px;" alt="PRODUCT IMAGE">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select id="inputState" class="form-control" id="prod-occation" name="prod-occation" required>
+                                    <option value={{old_content.occation.pk}} selected>{{old_content.occation.name}}</option>
+                                    {% for oc in occation_list %}
+                                    {% if old_content.occation.pk != oc.pk %}
+                                    <option value="{{oc.pk}}">{{oc.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-11"></div>
+                            <div class="form-group col-md-1">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                      </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- ============================================================================================ -->

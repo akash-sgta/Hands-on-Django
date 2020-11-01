@@ -42,10 +42,22 @@ Detail
                             <p>Product ID: {{pr.pk}}</p>
                             <span>
                                 <span>INR {{pr.price}}</span>
-                                <button type="button" class="btn btn-fefault cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <a href="add_cart.py?pid={}">Add to cart</a>
-                                </button>
+                                {% if pr.stock == 0 %}
+                                <form>
+                                    <button type="button" class="btn btn-fefault cart" disabled>
+                                        <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form action="{% url 'add_to_cart' %}" enctype="multipart/form-data" method="POST">
+                                    <input type="hidden" id="prod-id" name="prod-id" value="{{pr.pk}}">
+                                    <button type="submit" value="submit" class="btn btn-fefault cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Add to cart
+                                    </button>
+                                </form>
+                                {% endif %}                                
                             </span>
                             <p>
                                 <b>Availability:</b>

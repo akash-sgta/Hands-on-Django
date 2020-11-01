@@ -1,0 +1,29 @@
+{% extends 'back/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Admin
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{site_data.name}}</h1>
+                </div>
+                <div class="col-lg-10">
+                    <h2>{{alert_type}} </h2><h4>{{alert_message|safe}}</h4>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- ============================================================================================ -->

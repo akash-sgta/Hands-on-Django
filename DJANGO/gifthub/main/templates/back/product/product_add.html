@@ -1,0 +1,76 @@
+{% extends 'back/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Admin
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{site_data.name}}</h1>
+                </div>
+                <div class="col-lg-10">
+                    <h2>Product </h2><h4><b>create</b>-read-edit-delete</h4>
+                    <hr>
+
+                    <form action="{% url 'product_add' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="prod-name" id="prod-name" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="prod-brand" id="prod-brand" placeholder="Brand" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <textarea row=2 class="form-control" name="prod-details" id="prod-details" required>Details</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="prod-price">Price</label>
+                                <input type="nummber" min="0" step="0.01" class="form-control" name="prod-price" id="prod-price" value="0.00" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="prod-price">Stock</label>
+                                <input type="number" min="1" class="form-control" name="prod-stock" id="prod-stock" value="1" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="file" class="form-control" name="prod-image" id="prod-image" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select id="inputState" class="form-control" id="prod-occation" name="prod-occation" required>
+                                    <option selected>Choose Occation ...</option>
+                                    {% for oc in occation_list %}
+                                    <option value="{{oc.pk}}">{{oc.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-11"></div>
+                            <div class="form-group col-md-1">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                      </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- ============================================================================================ -->

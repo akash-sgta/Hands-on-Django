@@ -1,0 +1,72 @@
+{% extends 'front/master.html' %}
+{% load static %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Cart
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description">Description</td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="quantity">Status</td>
+                        <td class="description">Actions</td>
+                    </tr>
+                </thead>
+
+                <form name="form" method="post" action="update.py?pid={}">
+                    <tbody>    
+                        <tr>
+                            <td class="cart_product">
+                                <a href=""><img src="{{None}}" style="display: inline-block; height: 100px; width: 75px;" alt="PRODUCT IMAGE"></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4>{{None}}</h4>
+                                <p>Product ID: {{None}}</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>INR {{None}}</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <input class="cart_quantity_input" type="number" value="1" max="{{None}}" min="1" name="quantity" size="2">
+                                </div>
+                            </td>
+                            <td class="cart_delete">
+                                <input type="submit" name="ok" value="Order"> 
+                            </td>
+                            <td>
+                                <a href="delete_cart.py?cid={}&pid={}">Delete Item</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </form>
+
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_footer %}
+
+<script src="{% static 'front/js/jquery.js' %}"></script>
+<script src="{% static 'front/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'front/js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'front/js/price-range.js' %}"></script>
+<script src="{% static 'front/js/jquery.prettyPhoto.js' %}"></script>
+<script src="{% static 'front/js/main.js' %}"></script>
+
+{% endblock %}
+<!-- ============================================================================================ -->

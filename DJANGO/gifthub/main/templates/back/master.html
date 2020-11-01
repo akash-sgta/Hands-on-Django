@@ -1,16 +1,98 @@
+{% load static %}
+<!-- ===================================================================== -->
+{% if user.is_authenticated %}
+
+<!DOCTYPE html>
 <html>
     <head>
-        <title> | {}</title>
+        <!-- ===================================================================== -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- ===================================================================== -->
+        <link href="{% static 'back/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'back/css/metisMenu.min.css' %}" rel="stylesheet">
+        <link href="{% static 'back/css/startmin.css' %}" rel="stylesheet">
+        <link href="{% static 'back/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- ===================================================================== -->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- ===================================================================== -->
+        <title>{% block head_title %}{% endblock %} | {{site_data.name}}</title>
+        <!-- ===================================================================== -->
+
+        {% block head %}{% endblock %}
     </head>
+
     <body>
+
         <header>
-
+            {% if page != 'login' %}
+            <div class='row'>
+                <div class='col-sm-12'>
+                    <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand" href="{% url 'panel' %}">{{site_data.name}}</a>
+                            </div>
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'panel_logout' %}">Logout</a></li>
+                                        <li><a href="#">Edit Account</a></li>
+                                        <li><a href="#">Delete Account</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'occation_list' %}">Occation</a></li>
+                                <li><a href="{% url 'user_list' %}">User</a></li>
+                                <li><a href="{% url 'product_list' %}">Product</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            {% endif %}
+            {% block body_header %}{% endblock %}
         </header>
+
         <main>
-
+            {% block body_main %}{% endblock %}
         </main>
-        <footer>
 
+        <footer>
+            
+            <script src="{% static 'back/js/jquery.min.js' %}"></script>
+            <script src="{% static 'back/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'back/js/metisMenu.min.js' %}"></script>
+            <script src="{% static 'back/js/startmin.js' %}"></script>
+
+            {% block body_footer %}{% endblock %}
         </footer>
+
     </body>
 </html>
+
+{% else %}
+
+<html>
+    <head>
+        <title>Admin</title>
+    </head>
+    <body>
+        <a href="{% url 'panel' %}" style="text-decoration: none;"><h1>Login Required</h1></a>
+        <a href="{% url 'panel' %}" style="text-decoration: none;"><h2>Login Required</h2></a>
+        <a href="{% url 'panel' %}" style="text-decoration: none;"><h3>Login Required</h3></a>
+        <a href="{% url 'panel' %}" style="text-decoration: none;"><h4>Login Required</h4></a>
+    </body>
+</html>
+
+{% endif%}
