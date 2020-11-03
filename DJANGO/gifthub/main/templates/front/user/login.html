@@ -3,7 +3,7 @@
 <!-- ============================================================================================ -->
 {% block head_title %}
 
-Homepage
+Login
 
 {% endblock %}
 <!-- ============================================================================================ -->
@@ -12,10 +12,19 @@ Homepage
 <section id="form"><!--form-->
     <div class="container">
         <div class="row">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
+        <div class="row">
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
-                    <form name="frm" method="post" action="" enctype="multipart/form-data">
+                    <form name="frm" method="POST" action="{% url 'user_login' %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="email" id="email_id" name="email_id" placeholder="Email Address" required>
                         <input type="password" id="pwd" name="pwd" placeholder="Password" required>
@@ -29,7 +38,7 @@ Homepage
             <div class="col-sm-4">
                 <div class="signup-form"><!--sign up form-->
                     <h2>New User Signup!</h2>
-                    <form name="frm" method="post" action="" enctype="multipart/form-data">
+                    <form name="frm" method="POST" action="{% url 'user_login' %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="text" name="name" id="name" placeholder="Name" required>
                         <input type="email" name="email_id" id="email_id" placeholder="Email Address" required>

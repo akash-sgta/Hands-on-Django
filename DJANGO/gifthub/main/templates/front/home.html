@@ -74,11 +74,13 @@ Homepage
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                         {% for oc in occation %}
+                        {% if oc.pk != 20 %}
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title"><a href="#">{{oc.name}}</a></h4>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div><!--/category-products-->
 

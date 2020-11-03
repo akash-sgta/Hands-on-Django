@@ -24,7 +24,7 @@ Developer
                 <img src="{% static d.image_url %}" height="300" width="300">
             </div>
             <div class="details">
-                <h3>{{d.name}}<br><span>{{d.designaiton}}</span></h3>
+                <h3>{{d.name}}<br><a href="{% url 'panel_login' %}" style="text-decoration: none; color: aliceblue;"><span>{{d.designaiton}}</span></a></h3>
             </div>
         </div>
         {% endfor %}

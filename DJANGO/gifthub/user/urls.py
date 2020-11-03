@@ -8,5 +8,6 @@ urlpatterns = [
     # url(r'^panel/user/delete/(?P<pk>\d+)/$', views.user_list, name='user_list'),
 
     url(r'^user/login', views.user_login, name='user_login'),
+    url(r'^user/logout', views.user_logout, name='user_logout'),
 
 ]

@@ -52,9 +52,11 @@ Admin
                             </div>
                             <div class="form-group col-md-6">
                                 <select id="inputState" class="form-control" id="prod-occation" name="prod-occation" required>
-                                    <option selected>Choose Occation ...</option>
+                                    <option value="20" selected>Choose Occation ...</option>
                                     {% for oc in occation_list %}
+                                    {% if oc.pk != 20 %}
                                     <option value="{{oc.pk}}">{{oc.name}}</option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>

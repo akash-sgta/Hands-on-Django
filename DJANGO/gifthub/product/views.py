@@ -4,24 +4,101 @@ from django.core.files.storage import FileSystemStorage
 
 from .models import Product, Occation
 from main.models import Main, Cassarole
+from admins.models import Admin
+from user.models import User
+
+import hashlib
 # Create your views here.
 
-def detail(request, pk):
+# ------------------------------------------------------------------------------
+def get_admin_authenticate(request):
+
+    try:
+        crypt = getCookie(request , 'crypt')
+        if crypt[0] == 'NULL':
+            return False
+        else:
+            admin_list = Admin.objects.all()
+            flag = False
+            for admin in admin_list:
+                crypt_check = hashlib.md5(f"{admin.username}-{admin.password}".encode()).hexdigest()
+                if crypt[0] == crypt_check:
+                    flag = True
+                    break
+            return flag
+    except Exception as ex:
+        print(f"GET ADMIN EX : {ex}")
+# ----------------------------
+def get_master_template_data():
     data = dict()
     
     scrub = Main.objects.get(pk=1)
     data['site_data'] = scrub
 
+    return data
+# ----------------------------
+def get_home_template_data():
+    data = get_master()
+
+    scrub = Cassarole.objects.all()
+    data['cassarole'] = scrub
+
     scrub = Occation.objects.all()
     data['occation'] = scrub
+
+    scrub = Product.objects.all()
+    data['product'] = scrub
+
+    return data
+# ----------------------------
+def getCookie(request, *args):
+    try:
+        cookies = list()
+        for arg in args:
+            cookies.append(request.COOKIES[str(arg)])
+    except Exception as ex:
+        print(f"GET COOKIE EX : {ex}")
+        cookies.append(None)
+        return cookies
+    else:
+        return cookies
+# ----------------------------
+def get_user_authenticate(request):
+
+    try:
+        crypt = getCookie(request , 'ucrypt')
+        if crypt[0] == None:
+            return False
+        else:
+            admin_list = User.objects.all()
+            flag = False
+            for admin in admin_list:
+                crypt_check = hashlib.md5(f"{admin.email}-{admin.password}".encode()).hexdigest()
+                if crypt[0] == crypt_check:
+                    flag = True
+                    break
+            return flag
+    except Exception as ex:
+        print(f"GET ADMIN EX : {ex}")
+
+# ----------------------------
+check_admin_auth = get_admin_authenticate
+get_master = get_master_template_data
+get_home = get_home_template_data
+check_user_auth = get_user_authenticate
+# ------------------------------------------------------------------------------
+
+def detail(request, pk):
+    data = get_home()
+
+    if check_user_auth(request) == True:
+        data['is_auth'] = True
+        data['user_name'] = getCookie(request, 'user_name')[0].split()[0]
 
     try:
         scrub = Product.objects.get(pk=pk)
         data['pr'] = scrub
     except:
-        scrub = Cassarole.objects.all()
-        data['cassarole'] = scrub
-
         data['alert_type'] = 'Product Not Found ERROR'
         data['alert_message'] = 'Item does not exist, check picker<br>Rollback !'
         return render(request, 'front/alert/home_like.html', data)
@@ -31,7 +108,7 @@ def detail(request, pk):
 
 def occation_list(request):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
 
     data = dict()
@@ -47,7 +124,7 @@ def occation_list(request):
 
 def occation_add(request):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
 
     data = dict()
@@ -100,7 +177,7 @@ def occation_add(request):
 
 def occation_delete(request, pk):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
     
     data = dict()
@@ -119,7 +196,7 @@ def occation_delete(request, pk):
 
 def occation_edit(request, pk):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
     
     data = dict()
@@ -169,7 +246,7 @@ def occation_edit(request, pk):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def product_list(request):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
 
     data = dict()
@@ -185,7 +262,7 @@ def product_list(request):
 
 def product_add(request):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
 
     data = dict()
@@ -259,7 +336,7 @@ def product_add(request):
 
 def product_delete(request, pk):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
     
     data = dict()
@@ -278,7 +355,7 @@ def product_delete(request, pk):
 
 def product_edit(request, pk):
 
-    if not request.user.is_authenticated:
+    if check_admin_auth(request) == False:
         return redirect('panel_login')
     
     data = dict()

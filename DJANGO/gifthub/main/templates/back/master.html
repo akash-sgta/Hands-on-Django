@@ -1,6 +1,5 @@
 {% load static %}
 <!-- ===================================================================== -->
-{% if user.is_authenticated %}
 
 <!DOCTYPE html>
 <html>
@@ -80,19 +79,3 @@
 
     </body>
 </html>
-
-{% else %}
-
-<html>
-    <head>
-        <title>Admin</title>
-    </head>
-    <body>
-        <a href="{% url 'panel' %}" style="text-decoration: none;"><h1>Login Required</h1></a>
-        <a href="{% url 'panel' %}" style="text-decoration: none;"><h2>Login Required</h2></a>
-        <a href="{% url 'panel' %}" style="text-decoration: none;"><h3>Login Required</h3></a>
-        <a href="{% url 'panel' %}" style="text-decoration: none;"><h4>Login Required</h4></a>
-    </body>
-</html>
-
-{% endif%}

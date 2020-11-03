@@ -18,11 +18,13 @@ Detail
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                         {% for oc in occation %}
+                        {% if oc.pk != 20 %}
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title"><a href="#">{{oc.name}}</a></h4>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div><!--/category-products-->
                 </div>
@@ -50,13 +52,23 @@ Detail
                                     </button>
                                 </form>
                                 {% else %}
+                                {% if is_auth %}
                                 <form action="{% url 'add_to_cart' %}" enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
                                     <input type="hidden" id="prod-id" name="prod-id" value="{{pr.pk}}">
                                     <button type="submit" value="submit" class="btn btn-fefault cart">
                                         <i class="fa fa-shopping-cart"></i>
                                         Add to cart
                                     </button>
                                 </form>
+                                {% else %}
+                                <form>
+                                    <button type="button" class="btn btn-fefault cart" onclick='(function(){alert("Login Required!");})();'>
+                                        <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                    </button>
+                                </form>
+                                {% endif %}
                                 {% endif %}                                
                             </span>
                             <p>
