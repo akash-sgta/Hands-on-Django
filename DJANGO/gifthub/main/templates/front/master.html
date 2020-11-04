@@ -78,7 +78,7 @@
                             </div>
                             <div class="mainmenu pull-left">
                                 <ul class="nav navbar-nav collapse navbar-collapse">
-                                    <li><a href="/" class="active">Home</a></li>
+                                    <li><a href="/" class="active">Hom<input  />e</a></li>
                                     <li><a href="{% url 'about' %}">About Us</a></li>
                                     <li><a href="{% url 'contact' %}">Contact</a></li>
                                     <li><a href="{% url 'developer' %}">Developers</a></li>
@@ -86,13 +86,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <form name="form" method="post" action="#!">
-                                {% csrf_token %}
-                                <div class="search">
-                                    <input type="text" name="search" placeholder="Search"/>
-                                    <input type="submit" name="ok" value="Search">
-                                </div>
-                            </form>
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
                         </div>
                     </div>
                 </div>
