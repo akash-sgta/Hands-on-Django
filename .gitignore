@@ -4,3 +4,4 @@ migrations/
 upload/
 *.sqlite3
 DJANGO/gifthub/.env
+.fuse_*
