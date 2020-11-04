@@ -103,21 +103,33 @@ Homepage
             
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
-                    <h2 class="title text-center">Products</h2><!--lop starts here-->
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h2 class="title text-center">Products</h2>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" id="myInput" placeholder="Search for names..">
+                        </div>
+                    </div>
+                    <!--lop starts here-->
+                    
+                    <div id="searchR" class="row">
                     {% for pr in product %}
-                    <div class="col-sm-4">
+                    <div id="searchRow" class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
                                     <img src="{{pr.image_url}}" width="300" height="250" alt="PRODUCT IMAGE" />
                                     <h2>Rs. {{pr.price}}</h2>
-                                    <p>{{pr.name}}</p><!--pass id-->
+                                    <p id="searchName">{{pr.name}}</p><!--pass id-->
                                     <a href="{% url 'product_detail' pk=pr.pk %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>View Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}	
+                    {% endfor %}
+                    </div>
+
                 </div><!--features_items-->
             </div>
         </div>

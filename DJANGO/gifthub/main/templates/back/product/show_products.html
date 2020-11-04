@@ -14,8 +14,11 @@ Admin
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-9">
                     <h1 class="page-header">{{site_data.name}}</h1>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
                 </div>
                 <div class="col-lg-10">
                     <h2>Product </h2><h4>create-<b>read</b>-<b>edit</b>-<b>delete</b></h4>
@@ -69,6 +72,34 @@ Admin
         </div>
     </div>
 </div>
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_footer %}
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("dataTables-example");
+        tbody = table.getElementsByTagName("tbody");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 
 {% endblock %}
 <!-- ============================================================================================ -->

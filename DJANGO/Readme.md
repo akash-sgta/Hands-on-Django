@@ -14,14 +14,14 @@
 pip install wheel\
 pip install django\
 pip install pillow\
-pip install requests\
+pip install requests
 
 
 python3 manage.py makimigrations main\
 python3 manage.py makimigrations product\
 python3 manage.py makimigrations admins\
-python3 manage.py makimigrations users\
-python3 manage.py makimigrations cart\
+python3 manage.py makimigrations user\
+python3 manage.py makimigrations cart
 
-python3 manage.py migrate\
+python3 manage.py migrate
 
