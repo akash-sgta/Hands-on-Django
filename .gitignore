@@ -3,3 +3,4 @@ venv/
 migrations/
 upload/
 *.sqlite3
+DJANGO/gifthub/.env
