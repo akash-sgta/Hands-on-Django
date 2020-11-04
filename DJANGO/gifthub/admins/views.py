@@ -2,6 +2,7 @@ from datetime import date
 from django.http import request
 from django.shortcuts import render
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 from main.models import Main
 from .models import Admin
@@ -158,7 +159,7 @@ def panel_login(request):
             data['alert_message'] = 'Check The Credentials'
         else:
             data['alert_message'] = ex
-        return render(request, 'back/alert/login_like.html', data)
+        messages.info(request, data['alert_message'])
 
     return render(request, 'back/login.html', data)
 

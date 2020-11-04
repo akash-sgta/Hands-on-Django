@@ -36,6 +36,13 @@
                                 <a href="{% url 'panel_login' %}" style="text-decoration: none;"><h3 class="panel-title">Sign In</h3></a>
                             </div>
                             <div class="panel-body">
+                                {% if messages %}
+                                <ul class="messages" style="list-style-type:none;">
+                                    {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                                 <form name="form" method="post" action="{% url 'panel_login' %}">
                                     {% csrf_token %}
                                     <fieldset>

@@ -1,0 +1,80 @@
+{% extends 'front/master.html' %}
+{% load static %}
+{% load mathfilters %}
+<!-- ============================================================================================ -->
+{% block head_title %}
+
+Order
+
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_main %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <center>
+
+                <div class="shopper-informations">
+
+                        <div class="col-sm-6">
+                            <div class="shopper-info">
+                                <p>Shopper Information</p>
+                                <form class="text-center border border-light p-5"  method="POST" enctype="multipart/form-data" action="{% url 'put_order' %}">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name='order_id' id='order_id' value="{{order.pk}}" required />
+                                    <input type="hidden" name='cart_id' id='cart_id' value="{{cart_id}}" required />
+                            
+                                    <p class="h4 mb-4">Order Information : {{user_name}}</p>
+                                    <hr>
+                                    <p class="h4 mb-4">Shipping Information</p>
+                                    <label for="name">Full Name</label>
+                                    <input class="form-control mb-4" type="text" name="name" id="name" placeholder="Name" value="{{order.user.name}}" readonly required>
+                                    <label for="address">*Address</label>
+                                    <textarea class="form-control rounded-0" type="text" name="address" id="address" required>{{order.user.address}}</textarea>
+                                    <label for="phone">*Contact Number</label>
+                                    <input class="form-control mb-4" type="number" max="9999999999" min="1000000000" name="phone" id="phone" placeholder="Contact" value="{{order.user.phone}}" required>
+                                    <hr>
+                                    <p class="h4 mb-4">Product Information</p>
+                                    <label for="p_name">Product Name</label>
+                                    <input class="form-control mb-4" type="text" value="{{order.product.name}}" name="p_name" readonly required>
+                                    <label for="p_price">Price</label>
+                                    <input class="form-control mb-4" type="nummber" min="0" step="0.01" name="p_price" id="p_price" value="{{order.product.price}}" required readonly>
+                                    <label for="p_quantity">*Quantity</label>
+                                    <input class="form-control mb-4" type="number" value="1" max="{{order.product.stock}}" min="1" name="p_quantity" id="p_quantity" required>
+                                    <label for="p_total">Total Amount</label>
+                                    <input class="form-control mb-4" type="text" value="{{order.amount}}" name="p_total" id="p_total" readonly required>
+                                    
+                                    <button class="btn btn-info btn-block" type="submit">Submit</button>
+                                
+                                </form>
+                            </div>
+                        </div>
+                </div>
+
+            </center>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- ============================================================================================ -->
+{% block body_footer %}
+
+<script src="{% static 'front/js/jquery.min.js' %}"></script>
+<script src="{% static 'front/js/popper.min.js' %}"></script>
+<script src="{% static 'front/js/bootstrap.min.js' %}"></script>
+<script>
+    document.getElementById("p_quantity").addEventListener("change", myFunction);
+
+    function myFunction() {
+        var price = document.getElementById("p_price");
+        var quantity = document.getElementById("p_quantity");
+        var tot = document.getElementById("p_total");
+        tot.value = price.value * quantity.value;
+    }
+</script>
+
+{% endblock %}
+<!-- ============================================================================================ -->

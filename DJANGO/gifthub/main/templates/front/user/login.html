@@ -13,12 +13,12 @@ Login
     <div class="container">
         <div class="row">
             {% if messages %}
-            <ul class="messages">
+            <ul class="messages" style="list-style-type:none;">
                 {% for message in messages %}
                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
+            {% endif %}
         </div>
         <div class="row">
             <div class="col-sm-4 col-sm-offset-1">

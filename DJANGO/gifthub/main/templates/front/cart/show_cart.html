@@ -18,16 +18,18 @@ Cart
                         <td class="image">Item</td>
                         <td class="description">Description</td>
                         <td class="price">Price</td>
-                        <td class="quantity">Quantity</td>
+                        <td class="quantity">Available</td>
                         <td class="quantity">Status</td>
                         <td class="description">Actions</td>
                     </tr>
                 </thead>
 
-                <form name="form" method="post" action="update.py?pid={}">
-                    <tbody>
-                        {% for cart in carts %} 
-                        <tr>
+                <tbody>
+                    {% for cart in carts %}
+                    <tr>
+                        <form name="form" method="POST" enctype="multipart/form-data" action="{% url 'confirm_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="cart_id" name="cart_id" value="{{cart.pk}}" />
                             <td class="cart_product">
                                 <a href=""><img src="{{cart.product.image_url}}" style="display: inline-block; height: 100px; width: 75px;" alt="PRODUCT IMAGE"></a>
                             </td>
@@ -36,24 +38,28 @@ Cart
                                 <p>Product ID: {{cart.product.pk}}</p>
                             </td>
                             <td class="cart_price">
-                                <p>INR {{cart.price}}</p>
+                                <p>₹ {{cart.price}}</p>
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <input class="cart_quantity_input" type="number" value="1" max="{{cart.product.stock}}" min="1" name="quantity" size="2">
+                                    <input class="cart_quantity_input" type="text" value="{{cart.product.stock}}" name="quantity" id="quantity" size="2" readonly>
                                 </div>
                             </td>
+                            <td class="cart_order">
+                                
+                                <button type="submit" id="ok" name="ok" value="order">Order</button>
+                            </td>
                             <td class="cart_delete">
-                                <input type="submit" name="ok" value="Order"> 
+                                {% if is_auth %}
+                                <button onclick="window.location.href='/cart/del/{{cart.pk}}';" type="button" id="ok" name="ok" value="delete">Delete Item</button>
+                                {% else %}
+                                <button type="button" id="ok" name="ok" value="delete" href="#" disabled>Delete Item</button>
+                                {% endif %}
                             </td>
-                            <td>
-                                <a href="delete_cart.py?cid={}&pid={}">Delete Item</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </form>
-
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>

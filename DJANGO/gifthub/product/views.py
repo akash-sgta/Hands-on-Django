@@ -106,6 +106,30 @@ def detail(request, pk):
 
     return render(request, 'front/product/detail.html', data)
 
+def occation(request, pk):
+
+    data = get_home()
+
+    if check_user_auth(request) == True:
+        data['is_auth'] = True
+        data['user_name'] = getCookie(request, 'user_name')[0].split()[0]
+    
+    try:
+        data['picker'] = int(pk)
+        occ = Occation.objects.filter(pk = pk)[0]
+        products = Product.objects.filter(occation = occ)
+
+        del data['product']
+
+        data['product'] = products
+    except Exception as e:
+        print("OCCATION SHOW Ex : ", e)
+        del data['product']
+        return render(request, 'front/home.html', data)
+    else:
+        return render(request, 'front/home.html', data)
+
+# panel
 def occation_list(request):
 
     if check_admin_auth(request) == False:

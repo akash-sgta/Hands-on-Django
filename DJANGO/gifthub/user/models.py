@@ -17,7 +17,10 @@ class User(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
     product = models.ForeignKey(Product, on_delete=SET_NULL, null=True, blank=True)
+    address = models.TextField(default='-')
+    phone = models.CharField(max_length=20, default='0')
     amount = models.DecimalField(max_digits=7, decimal_places=2, default=0.00)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.pk} | {self.user.name} | {self.product.name}"
+        return f"{self.pk} | {self.user.name} | {self.product.name} | {self.completed}"

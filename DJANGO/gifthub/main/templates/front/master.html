@@ -21,12 +21,6 @@
         <script src="js/respond.min.js"></script>
         <![endif]-->
         <!-- ============================================================================================ -->
-        <link rel="shortcut icon" href="{% static 'front/images/ico/favicon.ico' %}">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'front/images/ico/apple-touch-icon-144-precomposed.png' %}">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'front/images/ico/apple-touch-icon-114-precomposed.png' %}">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'front/images/ico/apple-touch-icon-72-precomposed.png' %}">
-        <link rel="apple-touch-icon-precomposed" href="{% static 'front/images/ico/apple-touch-icon-57-precomposed.png' %}">
-        <!-- ============================================================================================ -->
         <title>{% block head_title %}{% endblock %} | {{site_data.name|safe}}</title>
         <!-- ============================================================================================ -->
         {% block head %}{% endblock %}
@@ -54,7 +48,7 @@
                                         <a href="{% url 'user_login' %}"><i class="fa fa-lock"></i> Login</a>
                                         {% endif %}
                                     </li>
-                                    <li><a href="viewuserorders.py"><i class="fa fa-shopping-cart"></i> My Orders</a></li>
+                                    <li><a href="{% url 'show_order' %}"><i class="fa fa-shopping-cart"></i> My Orders</a></li>
                                     <li><a href="{% url 'show_cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                                     <li>
                                         {% if is_auth %}
@@ -92,7 +86,8 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <form name="form" method="post" action="search.py">
+                            <form name="form" method="post" action="#!">
+                                {% csrf_token %}
                                 <div class="search">
                                     <input type="text" name="search" placeholder="Search"/>
                                     <input type="submit" name="ok" value="Search">

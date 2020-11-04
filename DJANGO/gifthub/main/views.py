@@ -80,6 +80,7 @@ def home(request):
         data['is_auth'] = True
         data['user_name'] = getCookie(request, 'user_name')[0].split()[0]
 
+    data['picker'] = 20
 
     return render(request, 'front/home.html', data)
 

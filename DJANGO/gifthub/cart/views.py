@@ -104,24 +104,20 @@ def add_to_cart(request):
                             flag = True
                             break
                     if flag == True:
-                        form = dict()
-                        form['user'] = User.objects.get(pk = user_pk)
-                        form['product'] = Product.objects.get(pk = form_data['prod-id'])
-                        form['quantity'] = 1
-                        form['price'] = form['product'].price * form['quantity']
 
-                        cart_ref = Cart(user = form['user'],
-                                        product = form['product'],
-                                        quantity = form['quantity'],
-                                        price = form['price'])
-                        cart_ref.save()
+                        usr = User.objects.get(pk = user_pk)
+                        prod = Product.objects.get(pk = form_data['prod-id'])
+
+                        cart = Cart(user = usr,
+                                        product = prod,
+                                        quantity = 1,
+                                        price = prod.price)
+                        cart.save()
                     
     except Exception as ex:
         print("ADD TO CART EX : ", ex)
-
-
-
-    return redirect('show_cart')
+    else:
+        return redirect('show_cart')
 
 def show_cart(request):
     data = get_master()
@@ -147,8 +143,6 @@ def show_cart(request):
                         break
                 if flag == True:
                     carts = Cart.objects.filter(user = user_ref)
-                    print(carts)
-                    print(user_ref)
                     if len(carts) == 0:
                         raise Exception('Cart Not Found')
                     else:
@@ -161,3 +155,24 @@ def show_cart(request):
         return redirect('user_login')
 
     return render(request, 'front/cart/show_cart.html', data)
+
+def del_cart(request, pk):
+    data = get_master()
+
+    if check_auth(request) == True:
+        data['is_auth'] = True
+        data['user_name'] = getCookie(request, 'user_name')[0]
+        cart = Cart.objects.filter(pk=pk)
+        if len(cart) == 0 or cart == None:
+            return redirect('show_cart')
+        else:
+            cart[0].delete()
+
+            #id = pk
+            #cart = Cart.objects.get(pk=id)
+            #cart.delete()
+
+            return redirect('show_cart')
+
+    else:
+        return redirect('user_login')

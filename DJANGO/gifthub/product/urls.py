@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
 
     url(r'^detail/(?P<pk>\d+)/$', views.detail, name='product_detail'),
+    url(r'^occation/(?P<pk>\d+)/$', views.occation, name='occation'),
 
     url(r'^panel/occation/list/', views.occation_list, name='occation_list'),
     url(r'^panel/occation/add/', views.occation_add, name='occation_add'),
