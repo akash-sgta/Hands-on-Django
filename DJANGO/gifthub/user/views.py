@@ -14,6 +14,9 @@ from main.views import get_master_template_data as gmtd
 from main.views import get_home_template_data as ghtd
 
 import hashlib
+import threading
+import smtplib
+
 # Create your views here.
 # ------------------------------------------------------------------------------
 def debug(*args):
@@ -25,6 +28,7 @@ def setCookie(request, *args, **kwargs):
     key_list = list(kwargs.keys())
     try:
         if(('file_path' in key_list) and ('data' in key_list)):
+            request.session.set_expiry(0)
             response = render(request, kwargs['file_path'], kwargs['data'])
             for item in key_list:
                 if item != 'file_path' and item != 'data':
@@ -281,19 +285,23 @@ def put_order(request):
             cart = Cart.objects.filter(pk = temp.get('cart_id'))
             cart.delete()
 
-            message = '=========================================================\n'
+            message = '=========================\n'
             message += f"Buyer Name : {order.user.name}\n"
             message += f"Buyer Contact : {order.phone}\n"
             message += f"Shipment Address : {order.address}\n"
-            message += '=========================================================\n'
+            message += '========================\n'
             message += f"Product Name : {order.product.name}\n"
             message += f"Product Quantity : {int(temp.get('p_quantity'))}\n"
             message += f"Product Price : {order.product.price}\n"
-            message += '=========================================================\n'
+            message += '========================\n'
             message += f"Total Price : {order.amount}\n"
-            message += '=========================================================\n'
+            message += '========================\n'
             message += 'Thank You,\nEnjoy the occation with the guilt that you made a purchase here u son of a bi**h.\n'
-            fast_mail(order.user.email, message)
+            # fast_mail(order.user.email, message)
+            
+            mail_thread = MailAgent(int(order.user.pk), order.user.email, message)
+            mail_thread.start()
+            mail_thread.join()
 
             return redirect('show_order')
         else:
@@ -321,19 +329,42 @@ def show_order(request):
     else:
         return render(request, 'front/order/show_order.html' ,data)
 
+class MailAgent(threading.Thread):
+    def __init__(self, threadID, email, order):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.email = email
+        self.order = order
+    
+    def run(self):
+        try:
+            s = smtplib.SMTP('smtp.gmail.com', 587) 
+            s.starttls() 
+            s.login("thesarcasticmoron420@gmail.com", "d0pWrLJlEX1g") 
+            message = f"Subject : GiftHub\n\n\nOrder Successfully Placed\n{self.order}".encode("utf-8")
+            s.sendmail("thesarcasticmoron420@gmail.com", self.email, message) 
+            s.quit()
+        except Exception as ex:
+            print(f"MAIL EX : {ex}")
+        else:
+            print("MAIL SUCCESS")
+
+
+'''
 def fast_mail(email, order):
     try:
         import smtplib
         s = smtplib.SMTP('smtp.gmail.com', 587) 
         s.starttls() 
         s.login("thesarcasticmoron420@gmail.com", "d0pWrLJlEX1g") 
-        message = f'''Subject : GiftHub\n\n\nOrder Successfully Placed\n{order}'''.encode("utf-8")
+        message = f"Subject : GiftHub\n\n\nOrder Successfully Placed\n{order}".encode("utf-8")
         s.sendmail("thesarcasticmoron420@gmail.com", email, message) 
         s.quit()
     except Exception as ex:
         print(f"MAIL EX : {ex}")
     else:
         print("MAIL SUCCESS")
+'''
 
 def confirm_order(request):
     if check_auth(request) == False:

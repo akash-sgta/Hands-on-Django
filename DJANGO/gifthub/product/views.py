@@ -117,7 +117,7 @@ def occation(request, pk):
     try:
         data['picker'] = int(pk)
         occ = Occation.objects.filter(pk = pk)[0]
-        products = Product.objects.filter(occation = occ)
+        products = Product.objects.filter(occation = occ).order_by('-pk')
 
         del data['product']
 

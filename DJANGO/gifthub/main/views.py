@@ -31,7 +31,7 @@ def get_home_template_data():
     scrub = Occation.objects.all()
     data['occation'] = scrub
 
-    scrub = Product.objects.all()
+    scrub = Product.objects.all().order_by('-pk')
     data['product'] = scrub
 
     return data
@@ -81,6 +81,7 @@ def home(request):
         data['user_name'] = getCookie(request, 'user_name')[0].split()[0]
 
     data['picker'] = 20
+    data['page'] = 'home'
 
     return render(request, 'front/home.html', data)
 

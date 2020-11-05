@@ -29,6 +29,7 @@ def setCookie(request, *args, **kwargs):
     key_list = list(kwargs.keys())
     try:
         if(('file_path' in key_list) and ('data' in key_list)):
+            request.session.set_expiry(0)
             response = render(request, kwargs['file_path'], kwargs['data'])
             for item in key_list:
                 if item != 'file_path' and item != 'data':

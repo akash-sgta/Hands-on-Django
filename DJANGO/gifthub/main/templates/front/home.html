@@ -115,6 +115,8 @@ Homepage
                     
                     <div id="searchR" class="row">
                     {% for pr in product %}
+                    {% if page == 'home' %}
+                    {% if pr.occation.name != 'Adult Fun' %}
                     <div id="searchRow" class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
@@ -127,6 +129,21 @@ Homepage
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+                    {% else %}
+                    <div id="searchRow" class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="{{pr.image_url}}" width="300" height="250" alt="PRODUCT IMAGE" />
+                                    <h2>Rs. {{pr.price}}</h2>
+                                    <p id="searchName">{{pr.name}}</p><!--pass id-->
+                                    <a href="{% url 'product_detail' pk=pr.pk %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     {% endfor %}
                     </div>
 
