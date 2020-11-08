@@ -1,13 +1,16 @@
+from django.db.models import query
 from django.http import request
 from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
 
-from .models import Product, Occation
+from .models import Product, Occation, Tag
 from main.models import Main, Cassarole
 from admins.models import Admin
 from user.models import User
 
 import hashlib
+import threading
+import json
 # Create your views here.
 
 # ------------------------------------------------------------------------------
@@ -268,6 +271,47 @@ def occation_edit(request, pk):
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def search(request):
+
+    if request.method == 'POST':
+        try:
+            data = get_home()
+
+            query = request.POST.get('myInput')
+            query = query.split()
+            product_ids = list()
+            for word in query:
+                tags = Tag.objects.filter(name=word)
+                if len(tags) == 0:
+                    continue
+                else:
+                    for tag in tags:
+                        kkdict = json.loads(tag.product_list)
+                        product_ids.extend(kkdict['product_id'])
+            
+            product_ids = tuple(set(product_ids))
+
+            products = list()
+            for id in product_ids:
+                pd = Product.objects.filter(pk=int(id))
+                if len(pd) == 0:
+                    continue
+                else:
+                    products.append(pd[0])
+            
+            del data['product']
+
+            data['product'] = products
+
+        except Exception as ex:
+            print(f"SEARCH EX : {ex}")
+            return redirect('home')
+        else:
+            print(f"SEARCH SUCCESS : {query}")
+            return render(request, 'front/home.html', data)
+    else:
+        return redirect('home')
+
 def product_list(request):
 
     if check_admin_auth(request) == False:
@@ -283,6 +327,59 @@ def product_list(request):
     data['product_detail'] = scrub
 
     return render(request, 'back/product/show_products.html', data)
+
+class Tag_Generator_Util(threading.Thread):
+    def __init__(self, threadID, query):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.query = query
+    
+    def run(self):
+        try:
+            chunks = self.query.split()
+            
+            # lower case all words
+            for i in range(len(chunks)):
+                chunks[i] = chunks[i].lower()
+                # discard 2 letter words
+                if len(chunks[i]) < 3:
+                    chunks[i] = 'general'
+            
+            # remove repeats
+            chunks = list(set(chunks))
+            
+            n_tags = Tag.objects.all().count()
+            # initial no item tagged
+            if n_tags == 0:
+                for chunk in chunks:
+                    data = dict()
+                    data['product_id'] = [self.threadID]
+                    new_tag = Tag(name = chunk,
+                                  product_list = json.dumps(data))
+                    new_tag.save()
+                    del data
+            else:
+                for chunk in chunks:
+                    filtered_tags = Tag.objects.filter(name=chunk)
+                    # tag not found probably new tag
+                    if len(filtered_tags) == 0:
+                        data = dict()
+                        data['product_id'] = [self.threadID]
+                        new_tag = Tag(name = chunk,
+                                    product_list = json.dumps(data))
+                        new_tag.save()
+                        del data
+                    else:
+                        data = json.loads(filtered_tags[0].product_list)
+                        data['product_id'].append(self.threadID)
+                        filtered_tags[0].product_list = json.dumps(data)
+                        filtered_tags[0].save()
+                        del data
+
+        except Exception as ex:
+            print(f"TAG GEN EX: {self.threadID} : {ex}")
+        else:
+            print(f"TAG GEN SUCCESS: {self.threadID}")
 
 def product_add(request):
 
@@ -304,6 +401,7 @@ def product_add(request):
         form_data['brand'] = temp.get('prod-brand')
         form_data['stock'] = temp.get('prod-stock')
         form_data['occation'] = temp.get('prod-occation')
+        form_data['tags'] = temp.get('prod-tags')
         
         flag = False
         for key,val in form_data.items():
@@ -352,6 +450,10 @@ def product_add(request):
                 data['alert_message'] = e
                 return render(request, 'back/alert/base_like.html', data)
             else:
+                prod_pk = Product.objects.latest('pk').pk
+                tag_it = Tag_Generator_Util(prod_pk, form_data['tags'])
+                tag_it.start()
+                tag_it.join()
                 return redirect('product_list')
 
     data['occation_list'] = Occation.objects.all()

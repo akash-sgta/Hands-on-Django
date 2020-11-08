@@ -3,6 +3,12 @@ from django.db.models.deletion import CASCADE, SET_NULL
 # ====================================
 
 # Create your models here.
+class Tag(models.Model):
+    name = models.CharField(default="Tag Name", max_length=127)
+    product_list = models.TextField(default="")
+
+    def __str__(self):
+        return f"{self.pk} | {self.name}"
 
 class Occation(models.Model):
     name = models.CharField(default="Occation", max_length=63)

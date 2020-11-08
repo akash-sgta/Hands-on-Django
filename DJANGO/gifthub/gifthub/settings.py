@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cart',
     'admins',
     'mathfilters',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -81,11 +82,23 @@ WSGI_APPLICATION = 'gifthub.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+database = dict()
+if 'sqlite' in config('DB'):
+    database['ENGINE'] = 'django.db.backends.sqlite3'
+    database['NAME'] = BASE_DIR / 'db.sqlite3'
+elif 'mysql' in config('DB'):
+    database['ENGINE'] = 'django.db.backends.mysql'
+    database['NAME'] = config('DB_NAME')
+    database['USER'] = config('DB_USER')
+    database['PASSWORD'] = ''
+    database['HOST'] = config('DB_HOST')
+    database['PORT'] = config('DB_PORT')
+else:
+    del database
+    raise('Check for Database Descripter in env')
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': database
 }
 
 
@@ -136,3 +149,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600 #100MB

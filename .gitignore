@@ -5,3 +5,4 @@ upload/
 *.sqlite3
 DJANGO/gifthub/.env
 .fuse_*
+temp.*

@@ -6,12 +6,9 @@ from django.contrib import messages
 
 from .models import Order, User
 from main.models import Main, Cassarole
-from product.models import Occation
+from product.models import Product, Occation
 from cart.models import Cart
 from admins.models import Admin
-
-from main.views import get_master_template_data as gmtd
-from main.views import get_home_template_data as ghtd
 
 import hashlib
 import threading
@@ -124,10 +121,34 @@ def get_admin_authenticate(request):
     except Exception as ex:
         print(f"GET ADMIN EX : {ex}")
 # ----------------------------------
+def get_master_template_data():
+    data = dict()
+    
+    scrub = Main.objects.get(pk=1)
+    data['site_data'] = scrub
+
+    return data
+#--------------------------------
+def get_home_template_data():
+    data = get_master()
+
+    scrub = Cassarole.objects.all()
+    data['cassarole'] = scrub
+
+    scrub = Occation.objects.all()
+    data['occation'] = scrub
+
+    scrub = Product.objects.all().order_by('-pk')
+    data['product'] = scrub
+
+    return data
+#--------------------------------
 check_auth = get_user_authenticate
 set_auth = set_user_authenticate
 reset_auth = reset_user_authenticate
 check_admin_auth = get_admin_authenticate
+get_master = get_master_template_data
+get_home = get_home_template_data
 # ------------------------------------------------------------------------------
 
 def user_list(request):
@@ -148,7 +169,7 @@ def user_list(request):
 
 def user_login(request):
 
-    data = ghtd()
+    data = get_home()
 
     if check_auth(request) == True:
         return redirect('home')
@@ -249,7 +270,7 @@ def user_logout(request):
     if check_auth(request) == False:
         return redirect('user_login')
     
-    data = ghtd()
+    data = get_home()
     return reset_auth(request, file_path='front/home.html', data=data)
 
 def put_order(request):
@@ -257,7 +278,7 @@ def put_order(request):
     if check_auth(request) == False:
         return redirect('user_login')
     
-    data = ghtd()
+    data = get_home()
     try:
         if request.method == 'POST':
             form_data =dict()
@@ -299,7 +320,7 @@ def put_order(request):
             message += 'Thank You,\nEnjoy the occation with the guilt that you made a purchase here u son of a bi**h.\n'
             # fast_mail(order.user.email, message)
             
-            mail_thread = MailAgent(int(order.user.pk), order.user.email, message)
+            mail_thread = Mail_Agent_Util(int(order.user.pk), order.user.email, message)
             mail_thread.start()
             mail_thread.join()
 
@@ -315,7 +336,7 @@ def show_order(request):
     if check_auth(request) == False:
         return redirect('user_login')
     
-    data = ghtd()
+    data = get_home()
     data['is_auth'] = True
     data['user_name'] = getCookie(request, 'user_name')[0]
     try:
@@ -329,7 +350,7 @@ def show_order(request):
     else:
         return render(request, 'front/order/show_order.html' ,data)
 
-class MailAgent(threading.Thread):
+class Mail_Agent_Util(threading.Thread):
     def __init__(self, threadID, email, order):
         threading.Thread.__init__(self)
         self.threadID = threadID
@@ -370,7 +391,7 @@ def confirm_order(request):
     if check_auth(request) == False:
         return redirect('user_login')
     
-    data = ghtd()
+    data = get_home()
     data['is_auth'] = True
     data['user_name'] = getCookie(request, 'user_name')[0]
 

@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'', include('user.urls')),
     url(r'', include('admins.urls')),
     url(r'', include('cart.urls')),
+    url(r'', include('api.urls')),
 
 ]
 
